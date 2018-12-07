@@ -1,0 +1,22 @@
+{
+  "env": {
+    "node": true
+  },
+  "rules": {
+    "indent": [1, 4],
+    "jsx-quotes": ["error", "prefer-single"],
+    "comma-dangle": 2
+  },
+  "parserOptions": {
+    "ecmaVersion": 7,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "settings": {
+    "react": {
+      "pragma": "React"
+    }
+  }
+}
