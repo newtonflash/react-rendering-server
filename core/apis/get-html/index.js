@@ -1,7 +1,8 @@
 const router = require('express').Router();
 const controller = require('./get-html.controller');
-const ERROR = require('../error-codes');
-const validateRequestBody = require('../api-utils').validateRequestBody;
+import ERROR from '../error-codes';
+import { validateRequestBody, validateRequestParams} from '../api-utils';
+
 
 router.post('/', function(req, res){
     try {
@@ -9,19 +10,31 @@ router.post('/', function(req, res){
 
         let reqParams = req.body;
 
+        let validation = validateRequestParams(reqParams, {
+            componentID : {
+                rules: ['not-undefined', 'not-blank-string'],
+                message: ERROR._0003_COMPONENT_ID_MISSING
+            },
+            componentData : {
+                rules: ['not-undefined', 'not-blank-string'],
+                message : ERROR._0004_COMPONENT_DATA_MISSING
+            },
+            componentType : {
+                rules: ['not-undefined', 'not-blank-string'],
+                regex : /static|dynamic/,
+                message : ERROR._0006_COMPONENT_TYPE_MISSING
+            }
+        });
 
-        if(typeof reqParams.componentID === 'undefined' || reqParams.componentID === "" ){
-            res.status(200).send({error: ERROR._0003_COMPONENT_ID_MISSING});
+        if(!validation.isValid){
+            res.status(200).send({error: validation.message});
             return;
         }
 
-        if(typeof reqParams.componentData === 'undefined' || reqParams.componentData === "" ){
-            res.status(200).send({error: ERROR._0004_COMPONENT_DATA_MISSING});
-            return;
-        }
         controller.compileComponent({
-                componentID : reqParams.componentID,
-                componentData : reqParams.componentData
+                id : reqParams.componentID,
+                data : reqParams.componentData,
+                type : reqParams.componentType
             },
             function (err, result) {
                 if (err) {
@@ -31,6 +44,7 @@ router.post('/', function(req, res){
                 res.send(result);
             });
     } catch (err) {
+        console.log(err);
         res.status(500).send({error: ERROR._0001_500_INTERNAL_ERROR});
     }
 });
