@@ -1,12 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styled from 'styled-components';
+
+const CopyRight = styled.div`
+    background:black,
+    padding: 40px;
+`;
 
 const FooterCopyRight = props => {
     const { usageTermsLink, privacyLink, year, copyrightLink } = props;
     const copyRightTxt = copyrightLink.replace("{year}", year);
 
     return (
-        <div className='copyRight'>
+        <CopyRight>
             <p className='copyRight__text'>{copyRightTxt}</p>
             <p className='copyRight__link'>
                 <a
@@ -26,7 +32,7 @@ const FooterCopyRight = props => {
                     {usageTermsLink.linkText}
                 </a>
             </p>
-        </div>
+        </CopyRight>
     );
 };
 

@@ -1,13 +1,22 @@
 import React from "react";
 import ReactDOMServer from 'react-dom/server';
-import FooterCopyRight from "../../src/components/footer-copy-right/footer-copy-right";
+import getComponentByID from '../../src/components/component-registry';
+import { ServerStyleSheet } from 'styled-components';
 
-const getComponentByID = id => {
-    return FooterCopyRight;
-};
+const ERROR = require('./error-codes');
 
 const compileReactComponent = (componentID, data) => {
-    return ReactDOMServer.renderToStaticMarkup(<FooterCopyRight {...data}/>);
+    const sheet = new ServerStyleSheet();
+    const Component = getComponentByID(componentID);
+    if(Component){
+        var html =  ReactDOMServer.renderToString(sheet.collectStyles(<Component {...data}/>));
+        var style = sheet.getStyleTags();
+        return html + style ;
+    } else {
+        return {
+            error:  `${ERROR._0005_COMPONENT_ID_NOT_CORRECT} : ${componentID}`
+        }
+    }
 };
 
 export default compileReactComponent;

@@ -1,7 +1,0 @@
-{
-  "components": {
-    "footer": {
-      "path": "./src/components/footer-copy-right/footer-copy-right.js"
-    }
-  }
-}

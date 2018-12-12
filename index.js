@@ -1,5 +1,5 @@
-require('babel-register')({
-    presets: [ 'env' ],
+require('@babel/register')({
+    presets: [ '@babel/env' ],
     extensions: [".es6", ".es", ".jsx", ".js"],
     cache: true
 })

@@ -25,7 +25,7 @@ router.post('/', function(req, res){
             },
             function (err, result) {
                 if (err) {
-                    res.status(400).send({error: ERROR._0002_400_GENERIC_ERROR});
+                    res.status(400).send(err);
                     return;
                 }
                 res.send(result);
