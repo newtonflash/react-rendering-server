@@ -1,8 +1,12 @@
+import isEmpty from 'lodash/isEmpty';
+
 const validateRequestBody = (req, res, context, message = 'request body is blank') => {
-    if(req.body === {}) {
-        console.error(context , ' ' , message  , err);
+    if(isEmpty(req.body)) {
         res.status(400).send({error: message });
+        return false;
     }
+
+    return true;
 };
 
 const validateRequestParams = (reqObj, validationRules) => {

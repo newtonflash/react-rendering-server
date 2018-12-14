@@ -5,9 +5,10 @@ import { validateRequestBody, validateRequestParams} from '../api-utils';
 
 
 router.post('/', function(req, res){
-    try {
-        validateRequestBody(req, res, 'getHTML');
+    const isValid = validateRequestBody(req, res, 'getHTML');
+    if(!isValid) return;
 
+    try {
         let reqParams = req.body;
 
         let validation = validateRequestParams(reqParams, {
